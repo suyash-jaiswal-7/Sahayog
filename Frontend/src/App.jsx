@@ -3,7 +3,28 @@ import plumberImg from "./assets/workers/plumber.png";
 import sanitationImg from "./assets/workers/sanitation.png";
 import logo from './assets/logo.png'
 import { useEffect, useState } from "react";
+import AuthPage from "./pages/AuthPage";
+
+// AuthPage contains frontend-only authentication UI for now.
+// Backend teammates can later connect its forms to the relevant
+// Customer, Worker, and Cooperative Owner authentication endpoints.
 function App() {
+  const [showAuth, setShowAuth] = useState(
+  window.location.hash === "#auth"
+);
+// Keep React state synchronized with the browser's
+// Back and Forward buttons.
+useEffect(() => {
+  const handlePopState = () => {
+    setShowAuth(window.location.hash === "#auth");
+  };
+
+  window.addEventListener("popstate", handlePopState);
+
+  return () => {
+    window.removeEventListener("popstate", handlePopState);
+  };
+}, []);
   const workers = [
   {
     role: "Electrician",
@@ -31,8 +52,25 @@ useEffect(() => {
 }, []);
 
 const currentWorker = workers[workerIndex];
+
+  // Authentication screen is rendered after all App hooks have run.
+  // This keeps React Hook order consistent across renders.
+  if (showAuth) {
+  return (
+    <AuthPage
+      onBackHome={() => {
+        window.history.replaceState({}, "", window.location.pathname);
+        setShowAuth(false);
+      }}
+    />
+  );
+}
+
   return (
     <div className="min-h-screen bg-[#f8fbfd] text-[#12345b]">
+
+
+
 
       {/* ================= NAVBAR ================= */}
       <nav className="sticky top-0 z-50 border-b border-[#dce8e3] bg-white/90 backdrop-blur-md">
@@ -82,7 +120,16 @@ const currentWorker = workers[workerIndex];
             </a>
           </div>
 
-          <button className="rounded-full bg-[#e67e22] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#11704f]">
+          <button 
+          onClick={() => {
+  window.history.pushState(
+    { page: "auth" },
+    "",
+    "#auth"
+  );
+  setShowAuth(true);
+}}
+          className="rounded-full bg-[#e67e22] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#11704f]">
             Get Started
           </button>
         </div>
@@ -128,12 +175,12 @@ const currentWorker = workers[workerIndex];
       {/* Buttons */}
       <div className="mt-8 flex flex-col gap-4 sm:flex-row">
 
-        <a
-          href="#get-started"
+        <button
+          onClick={() => setShowAuth(true)}
           className="inline-flex items-center justify-center rounded-xl bg-[#e67e22] px-7 py-3.5 font-semibold text-white shadow-lg shadow-[#16845f]/20 transition hover:-translate-y-0.5 hover:bg-[#11704f]"
         >
           Get Started
-        </a>
+        </button>
 
         <a
           href="#about"
@@ -536,7 +583,9 @@ const currentWorker = workers[workerIndex];
         Join the Movement
       </p>
 
-      <h2 className="mx-auto mt-4 max-w-3xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
+      <h2 
+      id="github"
+       className="mx-auto mt-4 max-w-3xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
         Let's build stronger communities together.
       </h2>
 
@@ -548,7 +597,9 @@ const currentWorker = workers[workerIndex];
       <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
 
         <a
-          href="#"
+          href="https://github.com/suyash-jaiswal-7/Sahayog"
+          target="_blank"
+          rel="noopener noreferrer"
           className="rounded-xl border border-white/30 px-7 py-3.5 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/10"
         >
           View on GitHub →
@@ -605,7 +656,9 @@ const currentWorker = workers[workerIndex];
       </a>
 
       <a
-        href="#"
+        href="https://github.com/suyash-jaiswal-7/Sahayog"
+        target="_blank"
+        rel="noopener noreferrer"
         className="transition hover:text-[#16845f]"
       >
         GitHub
