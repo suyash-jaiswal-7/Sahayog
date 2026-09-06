@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon src/server.js"
+  },
+  "keywords": [],
+  "author": "sahayog",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^2.11.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.9.4",
+    "multer": "^2.3.0",
+    "nodemailer": "^10.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^10.9.1",
+    "eslint-config-prettier": "^10.1.8",
+    "nodemon": "^3.1.14",
+    "prettier": "^3.9.6"
+  }
+}
