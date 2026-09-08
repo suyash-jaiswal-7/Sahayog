@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 
 import customerRouter from "./routes/customers.route.js";
 import workerRouter from "./routes/workers.route.js";
+import cooperativeRouter from "./routes/cooperative.route.js";
+import cooperativeAdminRouter from "./routes/cooperativeAdmin.routes.js";
 
 const app = express();
 
@@ -31,5 +33,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/customers", customerRouter);
 app.use("/api/v1/workers", workerRouter);
+app.use("/api/v1/cooperatives", cooperativeRouter);
+app.use("/api/v1/cooperative-admins", cooperativeAdminRouter);
 
 export { app };

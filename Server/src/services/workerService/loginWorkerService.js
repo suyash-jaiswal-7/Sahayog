@@ -46,7 +46,6 @@ const loginWorkerService = async ({ email, password, phone }) => {
   return {
     worker: loggedInWorker,
     accessToken,
-    refreshToken,
   };
 };
 
