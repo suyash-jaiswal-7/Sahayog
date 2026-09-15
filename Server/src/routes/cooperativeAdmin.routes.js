@@ -4,6 +4,9 @@ import {
   registerCooperativeAdmin,
   loginCooperativeAdmin,
   logoutCooperativeAdmin,
+  getJoinRequests,
+  acceptJoinRequest,
+  rejectJoinRequest,
 } from "../controller/cooperative/cooperativeAdmin.controller.js";
 
 import { verifyJWT } from "../middleware/auth.middleware.js";
@@ -25,5 +28,28 @@ cooperativeAdminRouter.post(
   verifyJWT,
   logoutCooperativeAdmin
 );
+
+
+// Get pending worker join requests
+cooperativeAdminRouter.get(
+  "/join-requests",
+  verifyJWT,
+  getJoinRequests
+);
+
+// Accept worker join request
+cooperativeAdminRouter.patch(
+  "/join-requests/:requestId/accept",
+  verifyJWT,
+  acceptJoinRequest
+);
+
+// Reject worker join request
+cooperativeAdminRouter.patch(
+  "/join-requests/:requestId/reject",
+  verifyJWT,
+  rejectJoinRequest
+);
+
 
 export default cooperativeAdminRouter;

@@ -59,10 +59,15 @@ const serviceSchema = new mongoose.Schema(
   }
 );
 
-
+// Prevent duplicate service + category combination
 serviceSchema.index(
-  { name: 1, category: 1 },
-  { unique: true }
+  {
+    name: 1,
+    category: 1,
+  },
+  {
+    unique: true,
+  }
 );
 
 export const Service = mongoose.model(

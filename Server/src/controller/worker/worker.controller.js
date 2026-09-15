@@ -3,6 +3,8 @@ import { loginWorkerService } from "../../services/workerService/loginWorkerServ
 import { logoutWorkerService } from "../../services/workerService/logoutWorkerService.js";
 import { apiResponse } from "../../utils/apiResponse.js";
 import { asyncErrorHandler } from "../../utils/asyncErrorHandler.js";
+import { requestCooperativeService } from "../../services/workerService/requestCooperativeService.js";
+import { getCooperativesService } from "../../services/workerService/getCooperativesService.js";
 
 
 
@@ -58,4 +60,46 @@ const logoutWorker = asyncErrorHandler(async (req, res) => {
 });
 
 
-export { registerWorker, loginWorker, logoutWorker };
+
+const requestToJoinCooperative = asyncErrorHandler(
+  async (req, res) => {
+
+    const { cooperativeId } = req.params;
+    const { message } = req.body;
+
+    const joinRequest = await requestCooperativeService(
+      req.worker._id,
+      cooperativeId,
+      message
+    );
+
+    return res
+      .status(201)
+      .json(
+        new apiResponse(
+          201,
+          joinRequest,
+          "Cooperative join request sent successfully!"
+        )
+      );
+  })
+
+
+const getCooperatives = asyncErrorHandler(async (req, res) => {
+
+  const cooperatives = await getCooperativesService();
+
+  return res
+    .status(200)
+    .json(
+      new apiResponse(
+        200,
+        cooperatives,
+        "Cooperatives fetched successfully!"
+      )
+    );
+});
+
+
+
+export { registerWorker, loginWorker, logoutWorker, requestToJoinCooperative, getCooperatives };
