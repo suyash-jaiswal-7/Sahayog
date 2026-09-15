@@ -74,7 +74,6 @@ const cooperativeSchema = new mongoose.Schema(
       },
     },
 
-
     federationId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Federation",
@@ -107,6 +106,12 @@ const cooperativeSchema = new mongoose.Schema(
       type: Number,
       min: 0,
       default: 0,
+    },
+
+    maxWorkers: {
+      type: Number,
+      min: 1,
+      default: 50,
     },
 
     activeWorkers: {
@@ -161,13 +166,4 @@ cooperativeSchema.index({
   location: "2dsphere",
 });
 
-export const Cooperative = mongoose.model(
-  "Cooperative",
-  cooperativeSchema
-);
-
-
-
-
-
-
+export const Cooperative = mongoose.model("Cooperative", cooperativeSchema);
