@@ -182,3 +182,98 @@
     border-right-color: var(--border);
   }
 }
+/* ================================
+   SAHAYOG POLISH
+================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+
+/* Navigation */
+
+.nav-link {
+  position: relative;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.nav-link:hover {
+  color: #16845f;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  width: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: #16845f;
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+
+/* Glass cards */
+
+.glass-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+}
+
+
+/* Hero worker */
+
+.hero-worker-image {
+  object-fit: contain;
+  object-position: center bottom;
+  pointer-events: none;
+}
+
+
+/* Better button interaction */
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* Selection */
+
+::selection {
+  background: rgba(22, 132, 95, 0.18);
+  color: #12345b;
+}
+
+
+/* Mobile */
+
+@media (max-width: 640px) {
+
+  .hero-worker-image {
+    height: 82%;
+    max-width: 75%;
+  }
+
+  .glass-card {
+    transform: scale(0.82);
+  }
+
+}

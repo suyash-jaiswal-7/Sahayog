@@ -2,7 +2,15 @@ import electricianImg from "./assets/workers/electrician.png";
 import plumberImg from "./assets/workers/plumber.png";
 import sanitationImg from "./assets/workers/sanitation.png";
 import logo from './assets/logo.png'
+import suyashImg from "./assets/team/suyash.jpg";
+import rohitRastogiImg from "./assets/team/rohit_rastogi.jpg";
+import ratnadipImg from "./assets/team/ratnadip.jpg";
+import swatiImg from "./assets/team/swati.jpg";
+import rohitChowdhuryImg from "./assets/team/rohit_chowdhury.jpg";
+import vivekImg from "./assets/team/vivek.jpg";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ShieldCheck, CalendarCheck, IndianRupee, Handshake, Languages } from "lucide-react";
 import AuthPage from "./pages/AuthPage";
 
 // AuthPage contains frontend-only authentication UI for now.
@@ -12,6 +20,8 @@ function App() {
   const [showAuth, setShowAuth] = useState(
   window.location.hash === "#auth"
 );
+  const [language, setLanguage] = useState("en");
+  const isHindi = language === "hi";
 // Keep React state synchronized with the browser's
 // Back and Forward buttons.
 useEffect(() => {
@@ -27,18 +37,18 @@ useEffect(() => {
 }, []);
   const workers = [
   {
-    role: "Electrician",
-    description: "Electrical services",
+    role: isHindi ? "इलेक्ट्रीशियन" : "Electrician",
+    description: isHindi ? "विद्युत सेवाएँ" : "Electrical services",
     image: electricianImg,
   },
   {
-    role: "Plumber",
-    description: "Plumbing services",
+    role: isHindi ? "प्लंबर" : "Plumber",
+    description: isHindi ? "प्लंबिंग सेवाएँ" : "Plumbing services",
     image: plumberImg,
   },
   {
-    role: "Sanitation Worker",
-    description: "Cleaning & sanitation",
+    role: isHindi ? "स्वच्छता कर्मी" : "Sanitation Worker",
+    description: isHindi ? "सफाई और स्वच्छता सेवाएँ" : "Cleaning & sanitation",
     image: sanitationImg,
   },
 ];
@@ -74,53 +84,64 @@ const currentWorker = workers[workerIndex];
 
       {/* ================= NAVBAR ================= */}
       <nav className="sticky top-0 z-50 border-b border-[#dce8e3] bg-white/90 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:py-5">
 
           {/* Logo */}
           <div className="flex items-center gap-3">
             <img
             src={logo}
             alt="Sahayog Logo"
-            className="h-12 w-12 object-contain"/>
+            className="h-24 w-24 object-contain"/>
             <div>
-              <h1 className="text-xl font-bold tracking-tight text-[#12345b]">
+              <h1 className="text-2xl font-bold tracking-tight text-[#12345b]">
                 Sahayog
               </h1>
-              <p className="text-xs text-gray-500">
-                People • Skills • Stronger Communities
+              <p className="text-sm text-gray-500">
+                {isHindi ? "लोग • कौशल • मजबूत समुदाय" : "People • Skills • Stronger Communities"}
               </p>
             </div>
           </div>
 
           {/* Navigation */}
-          <div className="hidden items-center gap-8 md:flex">
-            <a href="#home" className="text-sm font-medium text-[#16845f]">
-              Home
+          <div className="hidden items-center gap-8 lg:flex lg:-translate-x-8">
+            <a href="#home" className="text-base font-medium text-[#16845f]">
+              {isHindi ? "होम" : "Home"}
             </a>
 
             <a
               href="#about"
-              className="text-sm font-medium text-gray-700 transition hover:text-[#16845f]"
+              className="text-base font-medium text-gray-700 transition hover:text-[#16845f]"
             >
-              About
+              {isHindi ? "हमारे बारे में" : "About"}
             </a>
 
             <a
               href="#team"
-              className="text-sm font-medium text-gray-700 transition hover:text-[#16845f]"
+              className="text-base font-medium text-gray-700 transition hover:text-[#16845f]"
             >
-              Our Team
+              {isHindi ? "हमारी टीम" : "Our Team"}
             </a>
 
             <a
               href="#github"
-              className="text-sm font-medium text-gray-700 transition hover:text-[#16845f]"
+              className="text-base font-medium text-gray-700 transition hover:text-[#16845f]"
             >
               GitHub
             </a>
           </div>
 
-          <button 
+          <div className="flex shrink-0 items-center gap-3 lg:min-w-[360px] lg:justify-end">
+            <button
+              type="button"
+              onClick={() => setLanguage(isHindi ? "en" : "hi")}
+              className="inline-flex items-center gap-2 rounded-full border border-[#d4e0e8] bg-white px-4 py-2.5 text-sm font-semibold text-[#12345b] shadow-sm transition hover:border-[#16845f] hover:text-[#16845f]"
+              aria-label={isHindi ? "Switch to English" : "Switch to Hindi"}
+            >
+              <Languages size={18} strokeWidth={1.8} />
+              <span>{isHindi ? "EN" : "हिंदी"}</span>
+            </button>
+
+            <button 
           onClick={() => {
   window.history.pushState(
     { page: "auth" },
@@ -130,8 +151,12 @@ const currentWorker = workers[workerIndex];
   setShowAuth(true);
 }}
           className="rounded-full bg-[#e67e22] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#11704f]">
-            Get Started
+            {isHindi ? "शुरू करें" : "Get Started"}
           </button>
+
+            {/* Reserved space for future Admin Login */}
+            <div className="hidden w-28 lg:block" aria-hidden="true" />
+          </div>
         </div>
       </nav>
 
@@ -154,22 +179,22 @@ const currentWorker = workers[workerIndex];
       {/* Badge */}
       <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#cfe4da] bg-white px-4 py-2 text-sm font-semibold text-[#16845f] shadow-sm">
         <span className="h-2 w-2 rounded-full bg-[#e67e22]" />
-        A Cooperative-Owned Initiative
+        {isHindi ? "सहकारी संस्था की पहल" : "A Cooperative-Owned Initiative"}
       </div>
 
       {/* Heading */}
       <h1 className="text-5xl font-bold leading-[1.05] tracking-tight text-[#12345b] sm:text-6xl lg:text-[4.3rem]">
-        Empowering Skills.
+        {isHindi ? "कौशल को सशक्त बनाना।" : "Empowering Skills."}
         <span className="block text-[#16845f]">
-          Connecting Communities.
+          {isHindi ? "समुदायों को जोड़ना।" : "Connecting Communities."}
         </span>
       </h1>
 
       {/* Description */}
       <p className="mt-6 max-w-xl text-lg leading-8 text-[#526b86]">
-        Sahayog connects skilled cooperative workers with households and
-        communities, creating trusted opportunities, fair work, and stronger
-        local connections.
+        {isHindi
+          ? "सहयोग कुशल सहकारी श्रमिकों को परिवारों और समुदायों से जोड़ता है, जिससे भरोसेमंद अवसर, उचित काम और मजबूत स्थानीय संबंध बनते हैं।"
+          : "Sahayog connects skilled cooperative workers with households and communities, creating trusted opportunities, fair work, and stronger local connections."}
       </p>
 
       {/* Buttons */}
@@ -179,14 +204,14 @@ const currentWorker = workers[workerIndex];
           onClick={() => setShowAuth(true)}
           className="inline-flex items-center justify-center rounded-xl bg-[#e67e22] px-7 py-3.5 font-semibold text-white shadow-lg shadow-[#16845f]/20 transition hover:-translate-y-0.5 hover:bg-[#11704f]"
         >
-          Get Started
+          {isHindi ? "शुरू करें" : "Get Started"}
         </button>
 
         <a
           href="#about"
           className="inline-flex items-center justify-center rounded-xl border border-[#d4e0e8] bg-white px-7 py-3.5 font-semibold text-[#12345b] shadow-sm transition hover:-translate-y-0.5 hover:border-[#16845f] hover:text-[#16845f]"
         >
-          Learn More
+          {isHindi ? "और जानें" : "Learn More"}
         </a>
 
       </div>
@@ -196,23 +221,23 @@ const currentWorker = workers[workerIndex];
 
         <span className="flex items-center gap-2">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e4f5ec] text-xs font-bold text-[#16845f]">
-            ✓
+            <ShieldCheck size={26} strokeWidth={1.8} />
           </span>
-          Verified Workers
+          {isHindi ? "सत्यापित श्रमिक" : "Verified Workers"}
         </span>
 
         <span className="flex items-center gap-2">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e4f5ec] text-xs font-bold text-[#16845f]">
-            ✓
+            <ShieldCheck size={26} strokeWidth={1.8} />
           </span>
-          Fair Opportunities
+          {isHindi ? "उचित अवसर" : "Fair Opportunities"}
         </span>
 
         <span className="flex items-center gap-2">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#e4f5ec] text-xs font-bold text-[#16845f]">
-            ✓
+            <ShieldCheck size={26} strokeWidth={1.8} />
           </span>
-          Community First
+          {isHindi ? "समुदाय पहले" : "Community First"}
         </span>
 
       </div>
@@ -224,85 +249,91 @@ const currentWorker = workers[workerIndex];
 
       {/* Decorative circles */}
       <div className="absolute -left-6 top-10 h-20 w-20 rounded-full bg-[#e67e22]/10" />
-
       <div className="absolute -right-5 bottom-16 h-28 w-28 rounded-full bg-[#12345b]/10" />
 
-      {/* Main visual card */}
-      <div className="relative mx-auto flex aspect-square max-w-[480px] items-center justify-center">
+      {/* Medium worker card */}
+      <div className="relative mx-auto flex h-[470px] w-full max-w-[380px] items-center justify-center sm:h-[500px] sm:max-w-[400px]">
 
-        {/* Large circular background */}
-        <div className="absolute inset-8 rounded-full bg-[#eaf5f0]" />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentWorker.role}
+            initial={{ opacity: 0, y: 18, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -18, scale: 0.97 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+            className="relative flex h-[450px] w-[330px] flex-col overflow-hidden rounded-[30px] border border-white/80 bg-white shadow-[0_24px_70px_rgba(18,52,91,0.18)] sm:h-[480px] sm:w-[350px]"
+          >
 
-        {/* Inner circle */}
-        <div className="absolute inset-20 rounded-full bg-white shadow-xl" />
+            <div className="min-h-0 flex-1 overflow-hidden bg-[#f7faf9] px-3 pt-3">
+              <img
+                src={currentWorker.image}
+                alt={currentWorker.role}
+                className="h-full w-full object-contain object-bottom"
+              />
+            </div>
 
-        {/* Worker placeholder */}
-        <div className="worker-visual relative flex h-64 w-64 flex-col items-center justify-end overflow-hidden rounded-[45%] bg-[#12345b] shadow-2xl sm:h-72 sm:w-72">
+            <div className="border-t border-slate-100 bg-white px-6 py-4">
+              <p className="text-lg font-bold text-[#12345b]">
+                {currentWorker.role}
+              </p>
+              <p className="mt-1 text-sm text-[#647b94]">
+                {currentWorker.description}
+              </p>
+            </div>
 
-          <img
-  key={currentWorker.role}
-  src={currentWorker.image}
-  alt={currentWorker.role}
-  className="worker-image h-60 w-auto object-contain sm:h-72"
-/>
-          <div className="absolute bottom-4 z-20 text-center text-white">
-  <p className="text-lg font-bold">{currentWorker.role}</p>
-  <p className="text-xs text-white/70">{currentWorker.description}</p>
-</div>
+          </motion.div>
+        </AnimatePresence>
 
+        {/* Worker indicator */}
+        <div className="absolute -bottom-2 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 shadow-lg">
+          {workers.map((worker, index) => (
+            <span
+              key={worker.role}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                index === workerIndex
+                  ? "w-6 bg-[#16845f]"
+                  : "w-2 bg-slate-300"
+              }`}
+            />
+          ))}
         </div>
 
-
         {/* Floating card — worker */}
-        <div className="glass-card absolute left-0 top-24 rounded-2xl border border-white/70 bg-white/80 px-4 py-3 shadow-xl backdrop-blur-md sm:left-2">
-
+        <motion.div
+          animate={{ y: [0, -5, 0] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+          className="glass-card absolute -left-4 top-20 z-30 rounded-2xl border border-white/70 bg-white/85 px-4 py-3 shadow-xl backdrop-blur-md sm:-left-8"
+        >
           <div className="flex items-center gap-3">
-
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e4f5ec] text-[#16845f]">
               <span className="text-lg">✓</span>
             </div>
-
             <div>
-              <p className="text-xs text-[#7a8da3]">
-                Trusted
-              </p>
-
-              <p className="text-sm font-bold text-[#12345b]">
-                Skilled Workers
-              </p>
+              <p className="text-xs text-[#7a8da3]">{isHindi ? "भरोसेमंद" : "Trusted"}</p>
+              <p className="text-sm font-bold text-[#12345b]">{isHindi ? "कुशल श्रमिक" : "Skilled Workers"}</p>
             </div>
-
           </div>
-
-        </div>
-
+        </motion.div>
 
         {/* Floating card — community */}
-        <div className="glass-card absolute bottom-20 right-0 rounded-2xl border border-white/70 bg-white/80 px-4 py-3 shadow-xl backdrop-blur-md">
-
+        <motion.div
+          animate={{ y: [0, 5, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="glass-card absolute -right-3 bottom-20 z-30 rounded-2xl border border-white/70 bg-white/85 px-4 py-3 shadow-xl backdrop-blur-md sm:-right-8"
+        >
           <div className="flex items-center gap-3">
-
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e8f0fb] text-[#2e6fb0]">
               <span className="text-lg">●</span>
             </div>
-
             <div>
-              <p className="text-xs text-[#7a8da3]">
-                Built for
-              </p>
-
-              <p className="text-sm font-bold text-[#12345b]">
-                Communities
-              </p>
+              <p className="text-xs text-[#7a8da3]">{isHindi ? "बना है" : "Built for"}</p>
+              <p className="text-sm font-bold text-[#12345b]">{isHindi ? "समुदायों के लिए" : "Communities"}</p>
             </div>
-
           </div>
-
-        </div>
+        </motion.div>
 
       </div>
     </div>
-
   </div>
 </section>
 
@@ -318,20 +349,20 @@ const currentWorker = workers[workerIndex];
     {/* Section heading */}
     <div className="mx-auto max-w-3xl text-center">
       <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-[#16845f]">
-        About Sahayog
+        {isHindi ? "सहयोग के बारे में" : "About Sahayog"}
       </p>
 
       <h2 className="text-4xl font-bold tracking-tight text-[#12345b] sm:text-5xl">
-        Skills deserve opportunity.
+        {isHindi ? "कौशल को अवसर मिलना चाहिए।" : "Skills deserve opportunity."}
         <span className="block text-[#16845f]">
-          Communities deserve trust.
+          {isHindi ? "समुदाय भरोसे के हकदार हैं।" : "Communities deserve trust."}
         </span>
       </h2>
 
       <p className="mt-6 text-lg leading-8 text-[#526b86]">
-        Sahayog is a cooperative-owned digital platform designed to connect
-        skilled workers with households and institutions in a trusted,
-        transparent, and community-driven way.
+        {isHindi
+          ? "सहयोग एक सहकारी संस्था के स्वामित्व वाला डिजिटल प्लेटफ़ॉर्म है, जो कुशल श्रमिकों को परिवारों और संस्थानों से भरोसेमंद, पारदर्शी और समुदाय-केंद्रित तरीके से जोड़ता है।"
+          : "Sahayog is a cooperative-owned digital platform designed to connect skilled workers with households and institutions in a trusted, transparent, and community-driven way."}
       </p>
     </div>
 
@@ -339,36 +370,28 @@ const currentWorker = workers[workerIndex];
     <div className="mt-14 grid gap-6 md:grid-cols-2">
 
       {/* Problem */}
-      <div className="rounded-3xl border border-slate-200 bg-slate-50 p-8">
-        <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm">
-          ⚠️
-        </div>
-
-        <h3 className="text-2xl font-bold text-[#12345b]">
-          The Challenge
+      <div className="rounded-3xl border border-slate-200 bg-slate-50 p-10">
+        <h3 className="text-center text-3xl font-bold tracking-tight text-[#12345b]">
+          {isHindi ? "चुनौती" : "The Challenge"}
         </h3>
 
-        <p className="mt-4 leading-7 text-[#526b86]">
-          Skilled cooperative workers often lack a structured digital platform
-          to showcase their skills and connect with people who need their
-          services.
+        <p className="mt-6 text-center text-lg leading-8 text-[#526b86]">
+          {isHindi
+            ? "कुशल सहकारी श्रमिकों के पास अक्सर ऐसा व्यवस्थित डिजिटल प्लेटफ़ॉर्म नहीं होता जहाँ वे अपने कौशल दिखा सकें, अधिक ग्राहकों तक पहुँच सकें और सीधे जरूरतमंद लोगों से जुड़ सकें। डिजिटल उपस्थिति की कमी से अवसर छूटते हैं और उनके मूल्यवान कौशल को पर्याप्त पहचान नहीं मिल पाती।"
+            : "Skilled cooperative workers often lack a structured digital platform to showcase their skills, reach more customers, and connect directly with people who need their services. Without an accessible digital presence, many capable workers face missed opportunities, underemployment, and limited recognition for the valuable skills they bring to their communities."}
         </p>
       </div>
 
       {/* Solution */}
-      <div className="rounded-3xl border border-emerald-100 bg-emerald-50/60 p-8">
-        <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm">
-          🤝
-        </div>
-
-        <h3 className="text-2xl font-bold text-[#12345b]">
-          The Sahayog Solution
+      <div className="rounded-3xl border border-emerald-100 bg-emerald-50/60 p-10">
+        <h3 className="text-center text-3xl font-bold tracking-tight text-[#12345b]">
+          {isHindi ? "सहयोग का समाधान" : "The Sahayog Solution"}
         </h3>
 
-        <p className="mt-4 leading-7 text-[#526b86]">
-          Sahayog brings workers and communities together through verified
-          profiles, easier service discovery, fair opportunities, and a
-          transparent service experience.
+        <p className="mt-6 text-center text-lg leading-8 text-[#526b86]">
+          {isHindi
+            ? "सहयोग सत्यापित प्रोफ़ाइल, आसान सेवा खोज, उचित अवसर और पारदर्शी सेवा अनुभव के माध्यम से श्रमिकों और समुदायों को जोड़ता है। तकनीक के जरिए सहकारी मूल्यों को मजबूत करते हुए, यह स्थानीय प्रतिभा को अधिक पहचान दिलाता है और परिवारों व संस्थानों के लिए भरोसेमंद कुशल श्रमिकों से जुड़ना आसान बनाता है।"
+            : "Sahayog brings workers and communities together through verified profiles, easier service discovery, fair opportunities, and a transparent service experience. By using technology to strengthen cooperative values, the platform helps local talent become more visible while making it easier for households and institutions to discover and connect with trusted skilled workers."}
         </p>
       </div>
 
@@ -383,19 +406,20 @@ const currentWorker = workers[workerIndex];
     {/* Heading */}
     <div className="mx-auto max-w-3xl text-center">
       <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-[#16845f]">
-        What Sahayog Enables
+        {isHindi ? "सहयोग क्या संभव बनाता है" : "What Sahayog Enables"}
       </p>
 
       <h2 className="text-4xl font-bold tracking-tight text-[#12345b] sm:text-5xl">
-        Built for people.
+        {isHindi ? "लोगों के लिए बनाया गया।" : "Built for people."}
         <span className="block text-[#16845f]">
-          Designed for communities.
+          {isHindi ? "समुदायों के लिए डिज़ाइन किया गया।" : "Designed for communities."}
         </span>
       </h2>
 
       <p className="mt-5 text-lg leading-8 text-[#526b86]">
-        Everything needed to create a trusted and transparent connection
-        between skilled workers and the people who need their services.
+        {isHindi
+          ? "कुशल श्रमिकों और उनकी सेवाओं की जरूरत रखने वाले लोगों के बीच भरोसेमंद और पारदर्शी जुड़ाव के लिए आवश्यक सुविधाएँ।"
+          : "Everything needed to create a trusted and transparent connection between skilled workers and the people who need their services."}
       </p>
     </div>
 
@@ -405,64 +429,60 @@ const currentWorker = workers[workerIndex];
       {/* Card 1 */}
       <div className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
         <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-2xl">
-          ✓
+          <ShieldCheck size={26} strokeWidth={1.8} />
         </div>
 
         <h3 className="text-xl font-bold text-[#12345b]">
-          Verified Workers
+          {isHindi ? "सत्यापित श्रमिक" : "Verified Workers"}
         </h3>
 
         <p className="mt-3 leading-7 text-[#526b86]">
-          Discover skilled and verified cooperative workers with transparent
-          profiles and skill information.
+                    {isHindi ? "पारदर्शी प्रोफ़ाइल और कौशल जानकारी के साथ सत्यापित सहकारी श्रमिकों को खोजें।" : "Discover skilled and verified cooperative workers with transparent           profiles and skill information."}
         </p>
       </div>
 
       {/* Card 2 */}
       <div className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
         <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-2xl">
-          📅
+          <CalendarCheck size={26} strokeWidth={1.8} />
         </div>
 
         <h3 className="text-xl font-bold text-[#12345b]">
-          Easy Booking
+          {isHindi ? "आसान बुकिंग" : "Easy Booking"}
         </h3>
 
         <p className="mt-3 leading-7 text-[#526b86]">
-          Find the right service, choose a suitable time, and request help
-          through a simple booking experience.
+                    {isHindi ? "सही सेवा खोजें, उपयुक्त समय चुनें और सरल बुकिंग अनुभव के जरिए सहायता का अनुरोध करें।" : "Find the right service, choose a suitable time, and request help           through a simple booking experience."}
         </p>
       </div>
 
       {/* Card 3 */}
       <div className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
         <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-2xl">
-          ₹
+          <IndianRupee size={26} strokeWidth={1.8} />
         </div>
 
         <h3 className="text-xl font-bold text-[#12345b]">
-          Fair & Transparent
+          {isHindi ? "उचित और पारदर्शी" : "Fair & Transparent"}
         </h3>
 
         <p className="mt-3 leading-7 text-[#526b86]">
-          Promote fair opportunities, transparent pricing, digital payments,
-          and reliable service experiences.
+                    {isHindi ? "उचित अवसर, पारदर्शी मूल्य निर्धारण, डिजिटल भुगतान और भरोसेमंद सेवा अनुभव को बढ़ावा दें।" : "Promote fair opportunities, transparent pricing, digital payments,           and reliable service experiences."}
         </p>
       </div>
 
       {/* Card 4 */}
       <div className="group rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
         <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-50 text-2xl">
-          🤝
+          <Handshake size={26} strokeWidth={1.8} />
         </div>
 
         <h3 className="text-xl font-bold text-[#12345b]">
-          Worker Welfare
+          {isHindi ? "श्रमिक कल्याण" : "Worker Welfare"}
         </h3>
 
         <p className="mt-3 leading-7 text-[#526b86]">
-          Support worker welfare through cooperative participation, ratings,
-          benefits, and opportunities for sustainable work.
+                    {isHindi ? "सहकारी भागीदारी, रेटिंग, लाभ और टिकाऊ काम के अवसरों के माध्यम से श्रमिक कल्याण का समर्थन करें।" : "Support worker welfare through cooperative participation, ratings,           benefits, and opportunities for sustainable work."}
         </p>
       </div>
 
@@ -481,19 +501,20 @@ const currentWorker = workers[workerIndex];
     {/* Heading */}
     <div className="mx-auto max-w-3xl text-center">
       <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-[#16845f]">
-        Team-SixBits
+        {isHindi ? "टीम-सिक्सबिट्स" : "Team-SixBits"}
       </p>
 
       <h2 className="text-4xl font-bold tracking-tight text-[#12345b] sm:text-5xl">
-        The people behind
+        {isHindi ? "इसके पीछे के लोग" : "The people behind"}
         <span className="block text-[#16845f]">
-          Sahayog.
+          {isHindi ? "सहयोग।" : "Sahayog."}
         </span>
       </h2>
 
       <p className="mt-5 text-lg leading-8 text-[#526b86]">
-        A team working together to build a more connected and
-        cooperative-driven service ecosystem.
+        {isHindi
+          ? "एक अधिक जुड़ा हुआ और सहकारी सेवा तंत्र बनाने के लिए साथ काम करती टीम।"
+          : "A team working together to build a more connected and cooperative-driven service ecosystem."}
       </p>
     </div>
 
@@ -502,8 +523,8 @@ const currentWorker = workers[workerIndex];
 
       {/* Suyash */}
       <div className="group rounded-3xl border border-slate-200 bg-slate-50 p-7 text-center transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-lg">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-2xl font-bold text-emerald-800">
-          SJ
+        <div className="mx-auto h-20 w-20 overflow-hidden rounded-full ring-2 ring-emerald-100 shadow-sm">
+          <img src={suyashImg} alt="Suyash Jaiswal" className="h-full w-full object-cover" />
         </div>
 
         <h3 className="mt-5 text-xl font-bold text-[#12345b]">
@@ -513,8 +534,8 @@ const currentWorker = workers[workerIndex];
 
       {/* Rohit Rastogi */}
       <div className="group rounded-3xl border border-slate-200 bg-slate-50 p-7 text-center transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-lg">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-blue-100 text-2xl font-bold text-blue-800">
-          RR
+        <div className="mx-auto h-20 w-20 overflow-hidden rounded-full ring-2 ring-blue-100 shadow-sm">
+          <img src={rohitRastogiImg} alt="Rohit Rastogi" className="h-full w-full object-cover" />
         </div>
 
         <h3 className="mt-5 text-xl font-bold text-[#12345b]">
@@ -524,8 +545,8 @@ const currentWorker = workers[workerIndex];
 
       {/* Ratnadip */}
       <div className="group rounded-3xl border border-slate-200 bg-slate-50 p-7 text-center transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-lg">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-orange-100 text-2xl font-bold text-orange-800">
-          RS
+        <div className="mx-auto h-20 w-20 overflow-hidden rounded-full ring-2 ring-orange-100 shadow-sm">
+          <img src={ratnadipImg} alt="Ratnadip Shit" className="h-full w-full object-cover" />
         </div>
 
         <h3 className="mt-5 text-xl font-bold text-[#12345b]">
@@ -535,8 +556,8 @@ const currentWorker = workers[workerIndex];
 
       {/* Swati */}
       <div className="group rounded-3xl border border-slate-200 bg-slate-50 p-7 text-center transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-lg">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-purple-100 text-2xl font-bold text-purple-800">
-          SK
+        <div className="mx-auto h-20 w-20 overflow-hidden rounded-full ring-2 ring-purple-100 shadow-sm">
+          <img src={swatiImg} alt="Swati Kumari" className="h-full w-full object-cover object-[50%_35%]" />
         </div>
 
         <h3 className="mt-5 text-xl font-bold text-[#12345b]">
@@ -546,8 +567,8 @@ const currentWorker = workers[workerIndex];
 
       {/* Rohit Chowdhury */}
       <div className="group rounded-3xl border border-slate-200 bg-slate-50 p-7 text-center transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-lg">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-sky-100 text-2xl font-bold text-sky-800">
-          RC
+        <div className="mx-auto h-20 w-20 overflow-hidden rounded-full ring-2 ring-sky-100 shadow-sm">
+          <img src={rohitChowdhuryImg} alt="Rohit Chowdhury" className="h-full w-full object-cover" />
         </div>
 
         <h3 className="mt-5 text-xl font-bold text-[#12345b]">
@@ -557,8 +578,8 @@ const currentWorker = workers[workerIndex];
 
       {/* Vivek */}
       <div className="group rounded-3xl border border-slate-200 bg-slate-50 p-7 text-center transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-lg">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-teal-100 text-2xl font-bold text-teal-800">
-          VK
+        <div className="mx-auto h-20 w-20 overflow-hidden rounded-full ring-2 ring-teal-100 shadow-sm">
+          <img src={vivekImg} alt="Vivek Kumar" className="h-full w-full object-cover" />
         </div>
 
         <h3 className="mt-5 text-xl font-bold text-[#12345b]">
@@ -580,18 +601,19 @@ const currentWorker = workers[workerIndex];
     <div className="overflow-hidden rounded-[2rem] bg-[#0f4036] px-8 py-14 text-center shadow-xl sm:px-12 sm:py-16">
 
       <p className="text-sm font-semibold uppercase tracking-widest text-emerald-200">
-        Join the Movement
+        {isHindi ? "आंदोलन से जुड़ें" : "Join the Movement"}
       </p>
 
       <h2 
       id="github"
        className="mx-auto mt-4 max-w-3xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
-        Let's build stronger communities together.
+        {isHindi ? "आइए मिलकर मजबूत समुदाय बनाएं।" : "Let's build stronger communities together."}
       </h2>
 
       <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-emerald-50/80">
-        Explore the Sahayog project and discover how technology can create
-        better opportunities for skilled cooperative workers.
+        {isHindi
+          ? "सहयोग प्रोजेक्ट देखें और जानें कि तकनीक कुशल सहकारी श्रमिकों के लिए बेहतर अवसर कैसे बना सकती है।"
+          : "Explore the Sahayog project and discover how technology can create better opportunities for skilled cooperative workers."}
       </p>
 
       <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -602,7 +624,7 @@ const currentWorker = workers[workerIndex];
           rel="noopener noreferrer"
           className="rounded-xl border border-white/30 px-7 py-3.5 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/10"
         >
-          View on GitHub →
+          {isHindi ? "GitHub पर देखें →" : "View on GitHub →"}
         </a>
 
       </div>
@@ -627,7 +649,7 @@ const currentWorker = workers[workerIndex];
           Sahayog
         </p>
         <p className="text-sm text-slate-500">
-          People • Skills • Stronger Communities
+          {isHindi ? "लोग • कौशल • मजबूत समुदाय" : "People • Skills • Stronger Communities"}
         </p>
       </div>
     </div>
@@ -638,21 +660,21 @@ const currentWorker = workers[workerIndex];
         href="#home"
         className="transition hover:text-[#16845f]"
       >
-        Home
+        {isHindi ? "होम" : "Home"}
       </a>
 
       <a
         href="#about"
         className="transition hover:text-[#16845f]"
       >
-        About
+        {isHindi ? "हमारे बारे में" : "About"}
       </a>
 
       <a
         href="#team"
         className="transition hover:text-[#16845f]"
       >
-        Team
+        {isHindi ? "टीम" : "Team"}
       </a>
 
       <a
@@ -669,7 +691,7 @@ const currentWorker = workers[workerIndex];
 
   {/* Copyright */}
   <div className="mx-auto mt-8 max-w-6xl border-t border-slate-100 pt-6 text-center text-sm text-slate-400">
-    © 2026 Sahayog · Built by SixBits
+    © 2026 Sahayog · {isHindi ? "SixBits द्वारा निर्मित" : "Built by SixBits"}
   </div>
 </footer>
 
