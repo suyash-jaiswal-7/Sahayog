@@ -1,0 +1,25 @@
+# Dependencies and build output
+**/node_modules/
+**/dist/
+**/coverage/
+
+# Runtime secrets and local configuration
+**/.env
+**/.env.*
+!**/.env.example
+
+# Firebase / private credentials
+firebase-service-account.json
+**/firebase-service-account.json
+*.pem
+*.key
+
+# Local uploads and logs
+server/public/uploads/
+**/*.log
+
+# Editor and operating system files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

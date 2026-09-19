@@ -1,0 +1,18 @@
+import { Router } from "express";
+import { verifyCooperativeAdminJWT } from "../../shared/middleware/auth.middleware.js";
+import { requireCooperativeAdmin } from "../../shared/middleware/role.middleware.js";
+import { registerOwner, registerAdmin, loginAdmin, logoutAdmin, joinRequests, acceptRequest, rejectRequest, dashboard, workers, worker, workerStatus } from "./cooperative-admin.controller.js";
+const router = Router();
+router.post("/register-owner", registerOwner);
+router.post("/register", registerAdmin);
+router.post("/login", loginAdmin);
+router.use(verifyCooperativeAdminJWT, requireCooperativeAdmin);
+router.post("/logout", logoutAdmin);
+router.get("/join-requests", joinRequests);
+router.patch("/join-requests/:requestId/accept", acceptRequest);
+router.patch("/join-requests/:requestId/reject", rejectRequest);
+router.get("/dashboard", dashboard);
+router.get("/workers", workers);
+router.get("/workers/:workerId", worker);
+router.patch("/workers/:workerId/status", workerStatus);
+export default router;
